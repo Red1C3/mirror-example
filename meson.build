@@ -1,0 +1,6 @@
+project('me','cpp')
+srcAssembler=run_command('srcAssembler.sh')
+sources=srcAssembler.stdout().strip().split('\n')
+inc_dir=include_directories('include')
+sfmlWindow=dependency('sfml-window')
+executable('me',sources,include_directories:[inc_dir],dependencies:[sfmlWindow])

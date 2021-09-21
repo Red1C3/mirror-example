@@ -3,15 +3,15 @@
 #include <vector>
 #include <assert.h>
 #include <Mesh.h>
-#include<Shader.h>
+#include <Shader.h>
 class Renderer
 {
 private:
     std::vector<Mesh> meshes;
-    Mesh* mirror;
+    Mesh *mirror;
     GLuint mirrorTex, mirrorFb;
     Shader mainShader, mirrorShader;
-    glm::vec3 camLocation, camView;
+    glm::vec3 camPosition, camView, mirrorPosition;
     Renderer();
 
 public:

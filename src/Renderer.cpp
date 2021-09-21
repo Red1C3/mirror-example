@@ -23,23 +23,30 @@ void Renderer::init()
     glBindFramebuffer(GL_FRAMEBUFFER, mirrorFb);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mirrorTex, 0);
     assert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);
-    meshes.push_back(Mesh("./Assets/Cube.glb", vec3(2, 0, 0)));
-    mirror = new Mesh("./Assets/Mirror.glb", vec3(0, 0, 2));
-    camLocation = vec3(0, 0, -10);
+    camPosition = vec3(0, 0, -10);
     camView = vec3(0, 0, 2);
+    mirrorPosition = vec3(0, 0, 2);
+    meshes.push_back(Mesh("./Assets/Cube.glb", vec3(2, 0, 0)));
+    mirror = new Mesh("./Assets/Mirror.glb", mirrorPosition);
     mainShader = Shader("./Assets/mainShader.vert", "./Assets/mainShader.frag");
     mainShader.registerUniform("MVP");
     mainShader.registerUniform("isMirror");
+    mirrorShader = Shader("./Assets/mirrorShader.vert", "./Assets/mirrorShader.frag");
+    mirrorShader.registerUniform("MVP");
     assert(glGetError() == 0);
 }
 void Renderer::render()
 {
+    
+
+
+
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(mainShader.id);
     mat4 perspectiveMat = perspective(radians(45.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
-    mat4 viewMat = lookAt(camLocation, camView, vec3(0, 1, 0));
+    mat4 viewMat = lookAt(camPosition, camView, vec3(0, 1, 0));
     for (Mesh mesh : meshes)
     {
         mainShader.updateUniform("MVP", perspectiveMat * viewMat * mesh.model);

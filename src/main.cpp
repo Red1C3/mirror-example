@@ -1,5 +1,6 @@
 #include <SFML/Window/Window.hpp>
 #include <SFML/Window/Event.hpp>
+#include<Renderer.h>
 using namespace sf;
 int main()
 {
@@ -11,6 +12,7 @@ int main()
     ctxSettings.stencilBits = 0;
     Window window(VideoMode(1280, 720), "mirror-example", Style::Close, ctxSettings);
     window.setPosition(Vector2i(75, 0));
+    Renderer::instance().init();
     while (1)
     {
         Event event;
@@ -26,6 +28,7 @@ int main()
                 break;
             }
         }
+        Renderer::instance().render();
         window.display();
     }
 }

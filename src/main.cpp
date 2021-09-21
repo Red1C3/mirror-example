@@ -31,4 +31,5 @@ int main()
         Renderer::instance().render();
         window.display();
     }
+    Renderer::instance().terminate();
 }

@@ -9,9 +9,10 @@ class Renderer
 private:
     std::vector<Mesh> meshes;
     Mesh *mirror;
-    GLuint mirrorTex, mirrorFb;
+    GLuint mirrorTex, mirrorFb,mirrorRb;
     Shader mainShader, mirrorShader;
-    glm::vec3 camPosition, camView, mirrorPosition;
+    glm::vec3 camPosition, camView;
+    glm::vec3 mirrorPosition, mirrorNormal;
     Renderer();
 
 public:

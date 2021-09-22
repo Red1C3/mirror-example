@@ -7,6 +7,8 @@ void main(){
   if(isMirror==0){
     color=vec4(1,1,1,1);
   }else{
-    color=texture(mirror,out_pos_model.xy);
+    vec2 uv=out_pos_model.xy;
+    uv=(uv+vec2(1,1))/2;
+    color=texture(mirror,uv);
   }
 }

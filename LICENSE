@@ -1,4 +1,3 @@
-/*
 MIT License
 
 Copyright (c) 2021 Mohammad Issawi
@@ -20,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
-#version 330
-out vec4 color;
-in vec3 out_pos_model;
-uniform int isMirror;
-uniform sampler2D mirror;
-void main(){
-  if(isMirror==0){
-    color=vec4(1,1,1,1);
-  }else{
-    vec2 uv=out_pos_model.xy;
-    uv=(uv+vec2(1,1))/2;
-    color=texture(mirror,uv);
-  }
-}

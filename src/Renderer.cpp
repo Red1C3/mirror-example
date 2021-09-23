@@ -31,21 +31,22 @@ void Renderer::init()
     camView = vec3(0, 0, 2);
     mirrorPosition = vec3(0, 0, 2);
     mirrorNormal = vec3(0, 0, -1);
-    meshes.push_back(Mesh("./Assets/Cube.glb", vec3(1, 1, 0)));
+    meshes.push_back(Mesh("./Assets/Cube.glb", vec3(2, 1, 0)));
     mirror = new Mesh("./Assets/Mirror.glb", mirrorPosition);
     mainShader = Shader("./Assets/mainShader.vert", "./Assets/mainShader.frag");
     mainShader.registerUniform("MVP");
     mainShader.registerUniform("isMirror");
     mirrorShader = Shader("./Assets/mirrorShader.vert", "./Assets/mirrorShader.frag");
     mirrorShader.registerUniform("MVP");
+    downScaleFactor = 5.0f;
     assert(glGetError() == 0);
 }
 void Renderer::render()
 {
     vec3 camToMirror = mirrorPosition - camPosition;
-    float camToMirrorLen = length(camToMirror);
+    float camToMirrorLen = clamp(length(camToMirror), 0.0f, 100.0f) / 100.0f;
     vec3 reflectedCamToMirror = reflect(camToMirror, mirrorNormal);
-    float FOV = radians(45.0f); //TODO adjust
+    float FOV = clamp(((1.0f) / camToMirrorLen - 1) / downScaleFactor, 0.0f, half_pi<float>());
     mat4 perspectiveMat, viewMat;
     /*First Render Pass*/
     perspectiveMat = perspective(FOV, 1.0f, 0.1f, 100.0f);
@@ -78,6 +79,11 @@ void Renderer::render()
     mirror->draw();
     mainShader.updateUniform("isMirror", 0);
     assert(glGetError() == 0);
+}
+void Renderer::translateCamera(vec3 pos)
+{
+    camPosition += pos;
+    camView += pos;
 }
 void Renderer::terminate()
 {

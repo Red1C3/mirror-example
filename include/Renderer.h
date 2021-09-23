@@ -13,11 +13,13 @@ private:
     Shader mainShader, mirrorShader;
     glm::vec3 camPosition, camView;
     glm::vec3 mirrorPosition, mirrorNormal;
+    float downScaleFactor;
     Renderer();
 
 public:
     static Renderer &instance();
     void init();
     void render();
+    void translateCamera(glm::vec3 pos);
     void terminate();
 };
